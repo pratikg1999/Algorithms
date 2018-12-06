@@ -9,16 +9,16 @@ int bSearch(int* a, int n, int key, int* result, int except){//result will conta
     while(l<=h){
         mid = (l+h)/2;
         if(key == a[mid]){
-            if(a[mid]==except){
+            if(a[mid]==except){     //if the element 'except' is present..we return false
                 return -1;
             }
             *result = 1;
             return mid;
         }
-        else if (key < a[mid]){
+        else if (key < a[mid]){ //since key<A[mid], x is present in the first half of the sorted array
             h=mid-1;
         }
-        else{
+        else{       //since key>A[mid], x is present in the second half of the sorted array
             l=mid+1;
         }
     }
