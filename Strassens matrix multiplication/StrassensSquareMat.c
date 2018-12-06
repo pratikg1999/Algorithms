@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+/* Helper method to print a matrix */
 void print(int** a, int m, int n){
     int i=0,j=0;
     for(i=0;i<m;i++){
@@ -12,7 +13,7 @@ void print(int** a, int m, int n){
     }
     printf("\n");
 }
-
+/* Addition of two square matrices of same order */
 int** add(int**a, int**b, int n){
      int i=0,j=0;
      int **ans =(int**)malloc(sizeof(int*)*n);
@@ -29,6 +30,7 @@ int** add(int**a, int**b, int n){
     return ans;
 }
 
+//Subtract two square matrices
 int** sub(int**a, int**b, int n){
      int i=0,j=0;
 
@@ -46,6 +48,7 @@ int** sub(int**a, int**b, int n){
     return ans;
 }
 
+//Method to form a sub-matrix from a bigger matrix
 int** formMat(int** a, int r, int c, int n){
     int i,j,k=0;
      int **ans =(int**)malloc(sizeof(int*)*n);
@@ -79,6 +82,8 @@ int** add2(int** a, int r1, int c1, int r2, int c2, int n){
     }
     return ans;
 }
+
+//Combines 4 sub-matrices to form a bigger matrix
 int** formMatBig(int** a1, int** a2, int** a3, int** a4, int n){
     int i,j,k=0;
      int **ans =(int**)malloc(sizeof(int*)*2*n);
@@ -114,6 +119,8 @@ int** formMatBig(int** a1, int** a2, int** a3, int** a4, int n){
     return ans;
     
 }
+
+/*Multiplies two square matrices of same order using Strassen's multiplication */
 int** mult(int**a, int**b, int n){
     //printf("In the mult\n");
     int i,j,k; 
@@ -125,6 +132,7 @@ int** mult(int**a, int**b, int n){
     
     //int ans[n][n];
     int **ans;
+    //Base case:
     if(n==2){
         ans =(int**)malloc(sizeof(int*)*n);
         for(i=0;i<n;i++){
@@ -167,6 +175,7 @@ int** mult(int**a, int**b, int n){
     int **m1,**m2,**m3,**m4,**m5,**m6,**m7;
     int **a1, **a2, **a3, **a4, **b1, **b2, **b3, **b4;
     printf("Starting to calculate as and bs\n");
+    //Formation of sub-matrices
     a1 = formMat(a, 0,0,n/2);
     a2 = formMat(a,0,n/2,n/2);
     a3 = formMat(a,n/2 ,0,n/2);
@@ -178,7 +187,7 @@ int** mult(int**a, int**b, int n){
     b4 = formMat(b,n/2,n/2,n/2);
     
     printf("Done calculating as and bs\n");
-    
+    //Printing the sub-matrices formed
     print(a1, n/2, n/2);
     print(a2, n/2, n/2);
     print(a3, n/2, n/2);
@@ -188,6 +197,8 @@ int** mult(int**a, int**b, int n){
     print(b2, n/2, n/2);
     print(b3, n/2, n/2);
     print(b4, n/2, n/2);
+    
+    //making the Strassens parameters(matrices)
     //m1  = mult(add2(a, 0,0,n/2,n/2,n/2), add(b, 0,0,n/2,n/2,n/2) ,n/2);
     m1 = mult(add(a1,a4,n/2),add(b1,b4,n/2),n/2);
     m2 = mult(add(a3,a4, n/2) , b1, n/2);
@@ -211,6 +222,7 @@ int** mult(int**a, int**b, int n){
 
     
     int **c1,**c2,**c3,**c4;
+    //Making the sub-matrices of the result using formulae
     c1 = sub(add(m1,add(m4,m7,n/2),n/2),m5,n/2);
     c2 = add(m3,m5,n/2);
     c3 = add(m2,m4,n/2);
@@ -220,6 +232,8 @@ int** mult(int**a, int**b, int n){
     print(c2, n/2, n/2);
     print(c3, n/2, n/2);
     print(c4, n/2, n/2);
+    
+    //Combining the resultant sub-matrices to form to complete result
     ans = formMatBig(c1,c2,c3,c4, n/2);
 
     return ans;

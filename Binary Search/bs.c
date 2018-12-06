@@ -42,7 +42,7 @@ int rbSearch(int* a, int n,int start, int end,  int key, int* result){
         return rbSearch(a, n, mid+1, end, key, result);
     }
 }
-/*
+
 int main(){
     printf("Enter the length of the array: ");
     int i,n;
@@ -60,4 +60,4 @@ int main(){
     printf("The key is at index %d in the array\n", index);
     return 0;
 }
-*/
+

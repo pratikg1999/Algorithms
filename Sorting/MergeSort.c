@@ -9,38 +9,41 @@ void print(int *a, int n){
 }
 
 void merge(int *a, int l, int mid, int r, int n){
+    //TC of merge(): O(n)
     int i=l, k=0,j=mid+1;
-    int*c = (int*)malloc(sizeof(int)*(r-l+1));
-    while(i<=mid && j<=r){
+    int*c = (int*)malloc(sizeof(int)*(r-l+1)); //Temp array to store sorted elements
+    while(i<=mid && j<=r){      //if array in the left array is smaller than that in right
         if(a[i]<=a[j]){
             c[k] = a[i];
             i++;
             k++;
         }
-        else{
+        else{       //if array in the right sub-array is smaller than that in the left
             c[k] = a[j];
             j++;
             k++;
         }
     
     }
-    while(i<=mid){
+    while(i<=mid){  //inserting all remaining elements of left sub-array
         c[k] = a[i];
         i++;
         k++;
     }
-    while(j<=r){
+    while(j<=r){    //inserting all remaining elements of the right sub-array
         c[k] = a[j];
         j++;
         k++;
     }
-    for(k=0;k<r-l+1;k++){
+    for(k=0;k<r-l+1;k++){   //making changes in the main array
         a[l+k] = c[k];
     }
     print(a,n);
 }
 
 void mSort(int* a, int l, int r, int n){
+    /* Method to sort an array */
+    //TC: O(nlogn)
     if(r-l>=1){
         int mid = (l+r)/2;
         mSort(a, l, mid, n);
