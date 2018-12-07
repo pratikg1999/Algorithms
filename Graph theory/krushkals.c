@@ -18,7 +18,13 @@ typedef struct Subset{
     int rank;
 }Subset;
 
-
+void printSet(Subset *subsets, int n){
+    int i=0;
+    for(i=0;i<n;i++){
+        printf("%d ", subsets[i].parent);
+    }
+    printf("\n");
+}
 Graph* newGraph(int n){
     Graph* g = (Graph*)malloc(sizeof(Graph));
     g->n = n;
@@ -81,8 +87,8 @@ void un(Subset* subsets, int a,int b){
 }
 int canInsert(Graph* t, Edge e, Subset* subsets,int n){
     int i=0;
-    int fora = 0;
-    int forb = 0;
+    //int fora = 0;
+    //int forb = 0;
     find(subsets, e.a, n);
     find(subsets, e.b, n);
     int xRoot = subsets[e.a].parent;
@@ -104,7 +110,7 @@ int canInsert(Graph* t, Edge e, Subset* subsets,int n){
         }
     }
     */
-    return fora^forb;
+    //return fora^forb;
 }
 
 void buildTree(Graph* g, Graph* t, Subset* subsets, int n){
@@ -120,6 +126,7 @@ void buildTree(Graph* g, Graph* t, Subset* subsets, int n){
         //} 
     }*/
     for(i=0;i<g->noedges;i++){
+        printSet(subsets, n);
         if(canInsert(t, (g->edges)[i], subsets, n)){
             if(subsets[(g->edges)[i].a].rank>=subsets[(g->edges)[i].b].rank){
                 un(subsets, subsets[(g->edges)[i].a].parent, subsets[(g->edges)[i].b].parent);
@@ -169,7 +176,7 @@ void main(){
     }
     sortEdges(g);
     print(g);
-    addEdge(t, (g->edges)[0]);
+    //addEdge(t, (g->edges)[0]);
     while(t->noedges < g->n-1 && g->noedges>0){
         buildTree(g, t, subsets, n);
     }
