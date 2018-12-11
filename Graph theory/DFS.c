@@ -1,12 +1,12 @@
 #include<stdio.h>
 #include<stdlib.h>
-
+// method to print the order of nodes in depth first traversal
 void dfs(int **c, int n, int vertex, int *isVisited){
-    printf("%d\n", vertex);
-    isVisited[vertex]=1;
+    printf("%d\n", vertex); //print the node(source) to traverse
+    isVisited[vertex]=1;    //mark the node as visited
     int i=0;
     for(i=0;i<n;i++){
-        if(c[vertex][i]==1 && isVisited[i]==0){
+        if(c[vertex][i]==1 && isVisited[i]==0){ //finds the first non-visited adjacent node and traverses it
             dfs(c, n, i, isVisited);
         }
     }

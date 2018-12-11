@@ -1,6 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<limits.h>
+
+// 
 void print(int* a, int n){
     int i=0;
     for(i=0;i<n;i++){
@@ -51,13 +53,13 @@ void main(int argc, char const *argv[])
     printf("Enter the source vertex: ");
     scanf("%d", &source);
     source--;
-    int* result = (int*)malloc(sizeof(int)*(n+1));
+    int* result = (int*)malloc(sizeof(int)*(n+1));  //array to store the min distance from source
     
     for( i = 0; i < n; i++)
     {
-        result[i] = c[source][i];
+        result[i] = c[source][i];   //initial distance is the immediate distance
     }
-    result[n]= INT_MAX;
+    result[n]= INT_MAX;    //last element is just used for ease in algorithm
     int* isVisited = (int*)malloc(sizeof(int)*(n));
     isVisited[source]=1;
 
@@ -68,18 +70,20 @@ void main(int argc, char const *argv[])
 
     printf("");
     while(visited<n-1){
+        //find the closest non-visited element from source 
         int cur=n;
         for(i=0;i<n;i++){
             if(isVisited[i]!=1 && result[i]<result[cur]){
                 cur = i;
             }
         }
-        isVisited[cur] = 1;
+        isVisited[cur] = 1; 
         visited++;
         for(i=0;i<n;i++){
             if(isVisited[i]!=1){
             //result[i] = min(result[i], result[cur] + c[cur][i]);
-            if(result[i]>result[cur] + c[cur][i]){
+            //if the distance through the cur elemnt is less than current min distance
+            if(result[i]>result[cur] + c[cur][i]){  
                 result[i] = result[cur] + c[cur][i];
                 path[i] = cur;
             }
