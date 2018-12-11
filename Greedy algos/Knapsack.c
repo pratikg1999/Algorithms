@@ -48,7 +48,7 @@ int main(int argc, char const *argv[])
     int *pr = (int*)malloc(sizeof(int)*n); //stores the priority of weights
     for(i=0;i<n;i++){
         float max = 0;
-        int index=0;
+        int index=0; 
 
         for(j=0;j<n;j++){
             if(p_per_w[j]>max){

@@ -1,18 +1,61 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+// a structure to represent a weighted edge in graph
 typedef struct Edge{
     int a;
     int b;
     int cost;
 }Edge;
 
+// a structure to represent a connected, undirected 
+// and weighted graph 
 typedef struct Graph{
     int n;
     int noedges;
     Edge* edges;
 }Graph;
 
+
+// C++ program for Kruskal's algorithm to find Minimum Spanning Tree 
+// of a given connected, undirected and weighted graph 
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <string.h> 
+  
+// a structure to represent a weighted edge in graph 
+struct Edge 
+{ 
+    int src, dest, weight; 
+}; 
+  
+// a structure to represent a connected, undirected 
+// and weighted graph 
+struct Graph 
+{ 
+    // V-> Number of vertices, E-> Number of edges 
+    int V, E; 
+  
+    // graph is represented as an array of edges.  
+    // Since the graph is undirected, the edge 
+    // from src to dest is also edge from dest 
+    // to src. Both are counted as 1 edge here. 
+    struct Edge* edge; 
+}; 
+  
+// Creates a graph with V vertices and E edges 
+struct Graph* createGraph(int V, int E) 
+{ 
+    struct Graph* graph = new Graph; 
+    graph->V = V; 
+    graph->E = E; 
+  
+    graph->edge = new Edge[E]; 
+  
+    return graph; 
+} 
+  
+// A structure to represent a subset for union-find
 typedef struct Subset{
     int parent;
     int rank;
@@ -25,6 +68,8 @@ void printSet(Subset *subsets, int n){
     }
     printf("\n");
 }
+
+// Creates a graph with n vertices
 Graph* newGraph(int n){
     Graph* g = (Graph*)malloc(sizeof(Graph));
     g->n = n;
@@ -74,17 +119,27 @@ Edge findMinEdge(Graph* g){
     ((g->edges)[minIndex]).cost = -1;
     return minEdge;
 }
+
+// A utility function to find set of an element i 
+// (uses path compression technique) 
 int find(Subset* subsets, int v, int n){
+    // find root and make root as parent of i  
+    // (path compression) 
     if(subsets[v].parent == v){
         return v;
     }
     subsets[v].parent = find(subsets, subsets[v].parent, n);
     return subsets[v].parent;
 }
+
+// A function that does union of two sets of x and y 
+// (uses union by rank) 
 void un(Subset* subsets, int a,int b){
     subsets[b].parent = subsets[a].parent;
     subsets[subsets[a].parent].rank++;
 }
+
+// Function to check whether Edge e can be inserted in tree t
 int canInsert(Graph* t, Edge e, Subset* subsets,int n){
     int i=0;
     //int fora = 0;
@@ -113,6 +168,7 @@ int canInsert(Graph* t, Edge e, Subset* subsets,int n){
     //return fora^forb;
 }
 
+//Function to build a tree from Graph
 void buildTree(Graph* g, Graph* t, Subset* subsets, int n){
     int i=0;
     /*int minIndex = -1;
@@ -141,6 +197,7 @@ void buildTree(Graph* g, Graph* t, Subset* subsets, int n){
     }
 }
 
+//Utility function to print a grapph
 void print(Graph* g){
     printf("\n");
     int i=0;
@@ -174,6 +231,8 @@ void main(){
         subsets[i].parent = i;
         subsets[i].rank = 0;
     }
+    
+    // Step 1:  Sort all the edges in non-decreasing order of their weight.
     sortEdges(g);
     print(g);
     //addEdge(t, (g->edges)[0]);
